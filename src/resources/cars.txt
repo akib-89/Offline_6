@@ -1,0 +1,6 @@
+rx6800,1990,red,black,blue,amd,xt,6903.06,src\resources\img\rx6800.JPG,0
+ga2698,2000,red,bleck,blue,toyota,corolla,6900.0,src\resources\img\ga2698.jpg,0
+asdf,1500,adsf,asdf,adsf,adsf,asdf,5000.0,src\resources\img\asdf.jpg,0
+ra2569,2012,white,,,honda,rex,52000.0,src//resources//img//defaultImg.png,2
+AFDS89,2004,BLACK,,RED,TOYOTA,honda,25000.0,src//resources//img//defaultImg.png,0
+ABC132,2007,Yellow,,,Toyota,Corolla,5900.0,src//resources//img//defaultImg.png,14
