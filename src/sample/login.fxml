@@ -4,13 +4,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="378.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Login">
-    <Label layoutX="74.0" layoutY="73.0" prefHeight="41.0" prefWidth="242.0" style="-fx-font-size: 15px; -fx-text-fill: red;" text="Log in needed to proceed as admin" />
-    <Label layoutX="125.0" layoutY="28.0" style="-fx-text-fill: RED; -fx-font-size: 30 px;" text="WARNING" />
-    <TextField fx:id="username" layoutX="87.0" layoutY="156.0" prefHeight="25.0" prefWidth="216.0" promptText="User name" />
-    <PasswordField fx:id="password" layoutX="87.0" layoutY="200.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
-    <Button fx:id="login" layoutX="251.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleLogin" text="Log in" />
-   <Label fx:id="error" layoutX="87.0" layoutY="114.0" prefHeight="17.0" prefWidth="216.0" />
+<AnchorPane prefHeight="378.0" prefWidth="534.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Login">
+    <Label id="loginLabel" layoutX="377.0" layoutY="203.0" text="Login" />
+    <TextField fx:id="username" layoutX="296.0" layoutY="242.0" prefHeight="25.0" prefWidth="216.0" promptText="User name" />
+    <PasswordField fx:id="password" layoutX="296.0" layoutY="292.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
+    <Button fx:id="login" layoutX="41.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="41.0" prefWidth="84.0" text="Log in" />
+   <Label fx:id="error" layoutX="74.0" layoutY="85.0" prefHeight="17.0" prefWidth="216.0" />
+   <ImageView fitHeight="41.0" fitWidth="39.0" layoutX="385.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../resources/img/user.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

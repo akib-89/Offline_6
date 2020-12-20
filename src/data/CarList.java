@@ -17,17 +17,7 @@ public class CarList {
             //no need to proceed the car is already in the list
             return false;
         }
-        this.cars.put(car,stock);
-        return true;
-    }
-
-    public boolean deleteCar(String registrationNumber){
-        Car newCar = this.searchCar(registrationNumber);
-        if (newCar != null){
-            this.cars.remove(newCar);
-            return true;
-        }
-        return false;
+        return this.cars.put(car,stock) == null;
     }
 
     public Car searchCar(String registrationNumber){
@@ -68,14 +58,8 @@ public class CarList {
         return FXCollections.observableArrayList(cars.keySet());
     }
 
-    public boolean updateStock(Car car,int amount) {
-        int previous = this.cars.get(car);
-        if (previous<amount){
-            //can't not enough amount to sell
-            return false;
-        }
 
-        this.cars.put(car,previous - amount);
-        return true;
+    public void removeAll(){
+        this.cars.clear();
     }
 }

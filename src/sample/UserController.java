@@ -49,34 +49,6 @@ public class UserController implements Initializable {
         contextMenu.getItems().add(buy);
 
 
-        carList.setItems(Loader.getInstance().getCarList().getCars());
-        carList.getSelectionModel().selectedItemProperty().addListener((observableValue, oldCar, newCar) -> updateCarDetails(newCar));
-        carList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        carList.getSelectionModel().selectFirst();
-        carList.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Car> call(ListView<Car> carListView) {
-                ListCell<Car> cell = new ListCell<>() {
-                    @Override
-                    protected void updateItem(Car car, boolean empty) {
-                        super.updateItem(car, empty);
-                        if (empty) {
-                            setText(null);
-                        } else {
-                            setText(car.getManufacturer() + ", " + car.getModel() + ", " + car.getRegistrationNumber());
-                        }
-                    }
-                };
-                cell.emptyProperty().addListener((observableValue, wasEmpty, isNowEmpty) -> {
-                    if (isNowEmpty) {
-                        cell.setContextMenu(null);
-                    } else {
-                        cell.setContextMenu(contextMenu);
-                    }
-                });
-                return cell;
-            }
-        });
 
         search.expandedProperty().addListener((observableValue, aBoolean, newValue) -> {
             if (!newValue) {
@@ -109,6 +81,34 @@ public class UserController implements Initializable {
         });
         enter.setDisable(true);
 
+        carList.setItems(Loader.getInstance().getCarList().getCars());
+        carList.getSelectionModel().selectedItemProperty().addListener((observableValue, oldCar, newCar) -> updateCarDetails(newCar));
+        carList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        carList.getSelectionModel().selectFirst();
+        carList.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<Car> call(ListView<Car> carListView) {
+                ListCell<Car> cell = new ListCell<>() {
+                    @Override
+                    protected void updateItem(Car car, boolean empty) {
+                        super.updateItem(car, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            setText(car.getManufacturer() + ", " + car.getModel() + ", " + car.getRegistrationNumber());
+                        }
+                    }
+                };
+                cell.emptyProperty().addListener((observableValue, wasEmpty, isNowEmpty) -> {
+                    if (isNowEmpty) {
+                        cell.setContextMenu(null);
+                    } else {
+                        cell.setContextMenu(contextMenu);
+                    }
+                });
+                return cell;
+            }
+        });
 
 
     }

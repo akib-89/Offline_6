@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -54,7 +52,6 @@ public class AdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         contextMenu = new ContextMenu();
         edit = new MenuItem("Edit");
         edit.setOnAction(this::showDialogue);
@@ -207,7 +204,7 @@ public class AdminController implements Initializable {
             Car car = controller.getCar();
             if (event.getSource().equals(edit)){
                 Car prev = carList.getSelectionModel().getSelectedItem();
-                if (!prev.getImageLoc().equals("src//resources//img//defaultImg.png")){
+                /*if (!prev.getImageLoc().equals("src//resources//img//defaultImg.png")){
                     try {
                         Files.deleteIfExists(Paths.get(prev.getImageLoc()));
                     } catch (IOException e) {
@@ -225,18 +222,18 @@ public class AdminController implements Initializable {
                 }
                 prev.setColors(car.getColors());
                 prev.setPrice(car.getPrice());
-                prev.setImageLoc(car.getImageLoc());
-            } else if (event.getSource().equals(add)) {
-                String extension = car.getImageLoc().substring(car.getImageLoc().length()-4);
-                Path destination = Paths.get("src//resources//img//"+car.getRegistrationNumber()+extension);
-                Path source = Paths.get(car.getImageLoc());
-                try {
-                    Files.copy(source,destination, StandardCopyOption.REPLACE_EXISTING);
-                    car.setImageLoc(destination.toString());
-                } catch (IOException e) {
-                    System.out.println("error in copying during edit");
+                prev.setImageLoc(car.getImageLoc());*/
+                if (Loader.getInstance().editCar(prev,car)){
+                    System.out.println("successfully edited the car");
+                }else{
+                    System.out.println("could not update the car");
                 }
-                Loader.getInstance().getCarList().addCar(car,0);
+            } else if (event.getSource().equals(add)) {
+                if (Loader.getInstance().addCar(car)){
+                    System.out.println("car added");
+                }else {
+                    System.out.println("could no add car");
+                }
             }
             carList.setItems(Loader.getInstance().getCarList().getCars());
          }
@@ -244,14 +241,12 @@ public class AdminController implements Initializable {
     }
 
     private void deleteCar(Car car) {
-        if (!car.getImageLoc().equals("src//resources//img//defaultImg.png")) {
-            try {
-                Files.deleteIfExists(Path.of(car.getImageLoc()));
-            } catch (IOException e) {
-                System.out.println("error while deleting the car image from database");
-            }
+        if (Loader.getInstance().deleteCar(car)){
+            System.out.println("car deleted successfully");
+            return;
         }
-        Loader.getInstance().getCarList().deleteCar(car.getRegistrationNumber());
+
+        System.out.println("could not delete");
         carList.setItems(Loader.getInstance().getCarList().getCars());
     }
 
@@ -283,12 +278,12 @@ public class AdminController implements Initializable {
 
     private void updateCarStock(Car car){
         System.out.println("handling car stock");
-
         if (Loader.getInstance().updateStock(car,1)){
             System.out.println("stock updated successfully");
             updateCarDetails(car);
         }else{
             System.out.println("could not update the stock not enough cars");
         }
+        carList.setItems(Loader.getInstance().getCarList().getCars());
     }
 }

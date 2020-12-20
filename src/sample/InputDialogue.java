@@ -4,7 +4,6 @@ import data.Car;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
@@ -39,14 +38,8 @@ public class InputDialogue implements Initializable {
     private TextField optionalColor;
 
 
-    @FXML
-    private Button imgSelect;
-
     private String imgLoc;
     private BooleanBinding valid;
-    public Boolean getValid() {
-        return valid.get();
-    }
 
     public BooleanBinding validProperty() {
         return valid;
@@ -58,6 +51,8 @@ public class InputDialogue implements Initializable {
         valid = new BooleanBinding() {
             {
                 bind(registration.textProperty(),
+                        model.textProperty(),
+                        manufacturer.textProperty(),
                         price.textProperty(),
                         primaryColor.textProperty());
             }
@@ -67,7 +62,7 @@ public class InputDialogue implements Initializable {
                         && yearMade.getText().trim().matches("\\d{4}")
                         && !manufacturer.getText().trim().isEmpty()
                         && !model.getText().trim().isEmpty()
-                        && price.getText().trim().matches("\\d{1,7}(\\.\\d{0,5})")
+                        && price.getText().trim().matches("\\d{0,7}(\\.\\d{0,4})?")
                         && !primaryColor.getText().trim().isEmpty();
             }
         };

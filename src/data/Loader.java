@@ -1,15 +1,23 @@
 package data;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
+import java.io.*;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Loader {
     private final static Loader instance = new Loader();
-    private final static String filename = "src//resources//cars.txt";
+    private Socket socket;
     private final CarList carList;
 
     private Loader() {
@@ -19,45 +27,6 @@ public class Loader {
     public static Loader getInstance() {
         return instance;
     }
-
-    public void read(){
-        Path path = Paths.get(filename);
-        try(BufferedReader input = Files.newBufferedReader(path)){
-            String line;
-            while ((line = input.readLine()) != null){
-                String [] fields = line.split(",");
-                String registrationNumber = fields[0];
-                int yearMade = Integer.parseInt(fields[1]);
-                String [] colors = new String[3];
-                System.arraycopy(fields, 2, colors, 0, 3);
-                String manufacture = fields[5];
-                String model = fields[6];
-                double price = Double.parseDouble(fields[7]);
-                String imgLoc = fields[8];
-                int stock = Integer.parseInt(fields[9]);
-                Car car = new Car(registrationNumber,yearMade,colors,manufacture,model,price);
-                car.setImageLoc(imgLoc);
-                carList.addCar(car,stock);
-            }
-        }catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-        System.out.println("file loaded successfully!!");
-    }
-
-    public void write(){
-        Path path = Paths.get(filename);
-        try(BufferedWriter writer = Files.newBufferedWriter(path)){
-            for (Car car:carList.getCars()){
-                writer.write(car.toString()+","+carList.getStock(car));
-                writer.newLine();
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        System.out.println("application closed successfully");
-    }
-
     public CarList getCarList() {
         return carList;
     }
@@ -65,7 +34,170 @@ public class Loader {
         return carList.getStock(car);
     }
 
-    public boolean updateStock(Car car,int amount) {
-        return carList.updateStock(car,amount);
+    public void  read(){
+        connect();
+        try(ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream input = new ObjectInputStream(socket.getInputStream())){
+            writer.writeObject("-get");
+            Car car;
+            carList.removeAll();
+            boolean EOF = false;
+            TransferImg transfer = (TransferImg) input.readObject();
+            WritableImage image = transfer.getImg();
+            Path defaultImgPath = Paths.get("src\\resources\\img\\defaultImg.png");
+            File imageFile = new File(defaultImgPath.toString());
+            RenderedImage img = SwingFXUtils.fromFXImage(image,null);
+            try {
+                ImageIO.write(img,"png",imageFile);
+            } catch (IOException e) {
+                System.out.println("error in writing default image");
+            }
+
+            while (!EOF){
+                try{
+                    car = (Car) input.readObject();
+                    int stock = input.readInt();
+                    carList.addCar(car,stock);
+                    Path carPath = Paths.get(car.getImageLoc());
+                    if (defaultImgPath.toAbsolutePath().compareTo(carPath.toAbsolutePath()) != 0){
+                        transfer = (TransferImg) input.readObject();
+                        image = transfer.getImg();
+                        File other = new File(car.getImageLoc());
+                        img = SwingFXUtils.fromFXImage(image,null);
+                        try{
+                            ImageIO.write(img,"png",other);
+                        }catch (IOException e){
+                            System.out.println("error in writing other files");
+                        }
+                    }
+
+                }catch (EOFException e){
+                    EOF = true;
+                }
+            }
+        }catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        terminate();
+    }
+
+
+    public synchronized boolean updateStock(Car car,int amount) {
+        connect();
+        boolean result = false;
+        try(ObjectInputStream reader = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream())){
+            writer.writeObject("-updateStock");
+            writer.writeObject(car);
+            writer.writeInt(amount);
+            writer.flush();
+            result = reader.readBoolean();
+            socket.close();
+            this.read();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public synchronized boolean deleteCar(Car car) {
+        connect();
+        boolean result = false;
+        try(ObjectInputStream reader = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream())){
+            writer.writeObject("-delete");
+            writer.writeObject(car);
+            writer.flush();
+            result = reader.readBoolean();
+            socket.close();
+            this.read();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean editCar(Car prev,Car present){
+        connect();
+
+        boolean result = false;
+        try(ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream reader = new ObjectInputStream(socket.getInputStream())){
+            writer.writeObject("-edit");
+            writer.writeObject(prev);
+            writer.writeObject(present);
+            Image image = new Image(Files.newInputStream(Paths.get(present.getImageLoc())));
+            WritableImage wImg = clone(image);
+            TransferImg tImg = new TransferImg();
+            tImg.setImg(wImg);
+            writer.writeObject(tImg);
+            writer.flush();
+            result = reader.readBoolean();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        terminate();
+        this.read();
+        return result;
+    }
+
+    public boolean addCar(Car car){
+        connect();
+        boolean result = false;
+        try(ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream reader = new ObjectInputStream(socket.getInputStream())){
+            writer.writeObject("-add");
+            writer.writeObject(car);
+            Image image = new Image(Files.newInputStream(Paths.get(car.getImageLoc())));
+            WritableImage wImg = clone(image);
+            TransferImg eImg = new TransferImg();
+            eImg.setImg(wImg);
+            writer.writeObject(eImg);
+            writer.flush();
+            result = reader.readBoolean();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        terminate();
+        this.read();
+        return result;
+    }
+
+    private void connect(){
+        try{
+            socket = new Socket("192.168.0.105",60000);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void terminate(){
+        try{
+            socket.close();
+        }catch (IOException e){
+            System.out.println("error in terminating socket");
+        }
+    }
+
+    private static WritableImage clone(Image image) {
+        int height = (int) image.getHeight();
+        int width = (int) image.getWidth();
+        WritableImage writableImage = new WritableImage(width,height);
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+        if (pixelWriter == null) {
+            throw new IllegalStateException("IMAGE_PIXEL_READER_NOT_AVAILABLE");
+        }
+
+        final PixelReader pixelReader = image.getPixelReader();
+        if (pixelReader == null) {
+            throw new IllegalStateException("IMAGE_PIXEL_READER_NOT_AVAILABLE");
+        }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                Color color = pixelReader.getColor(x, y);
+                pixelWriter.setColor(x, y, color);
+            }
+        }
+        return writableImage;
     }
 }

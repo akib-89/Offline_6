@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader();
@@ -25,10 +26,6 @@ public class Main extends Application {
         Loader.getInstance().read();
     }
 
-    @Override
-    public void stop() {
-        Loader.getInstance().write();
-    }
 
     public static void main(String[] args) {
         launch(args);
