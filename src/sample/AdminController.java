@@ -67,6 +67,7 @@ public class AdminController implements Initializable {
             Car car = carList.getSelectionModel().getSelectedItem();
             updateCarStock(car);
         });
+        contextMenu.getItems().addAll(addStock);
         add.setOnAction(this::showDialogue);
 
 
@@ -204,25 +205,6 @@ public class AdminController implements Initializable {
             Car car = controller.getCar();
             if (event.getSource().equals(edit)){
                 Car prev = carList.getSelectionModel().getSelectedItem();
-                /*if (!prev.getImageLoc().equals("src//resources//img//defaultImg.png")){
-                    try {
-                        Files.deleteIfExists(Paths.get(prev.getImageLoc()));
-                    } catch (IOException e) {
-                        System.out.println("error in deleting file in edit");
-                    }
-                }
-                String extension = car.getImageLoc().substring(car.getImageLoc().length()-4);
-                Path destination = Paths.get("src//resources//img//"+car.getRegistrationNumber()+extension);
-                Path source = Paths.get(car.getImageLoc());
-                try {
-                    Files.copy(source,destination, StandardCopyOption.REPLACE_EXISTING);
-                    car.setImageLoc(destination.toString());
-                } catch (IOException e) {
-                    System.out.println("error in copying during edit");
-                }
-                prev.setColors(car.getColors());
-                prev.setPrice(car.getPrice());
-                prev.setImageLoc(car.getImageLoc());*/
                 if (Loader.getInstance().editCar(prev,car)){
                     System.out.println("successfully edited the car");
                 }else{
@@ -236,7 +218,7 @@ public class AdminController implements Initializable {
                 }
             }
             carList.setItems(Loader.getInstance().getCarList().getCars());
-         }
+        }
 
     }
 
@@ -278,12 +260,17 @@ public class AdminController implements Initializable {
 
     private void updateCarStock(Car car){
         System.out.println("handling car stock");
-        if (Loader.getInstance().updateStock(car,1)){
+        if (Loader.getInstance().addStock(car,5)){
             System.out.println("stock updated successfully");
             updateCarDetails(car);
         }else{
             System.out.println("could not update the stock not enough cars");
         }
+        carList.setItems(Loader.getInstance().getCarList().getCars());
+    }
+
+    public void refreshPressed(ActionEvent event) {
+        Loader.getInstance().read();
         carList.setItems(Loader.getInstance().getCarList().getCars());
     }
 }

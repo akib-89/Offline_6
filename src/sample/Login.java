@@ -38,6 +38,7 @@ public class Login implements Initializable {
                 login.disableProperty().bind(username.textProperty().isEmpty().or(password.textProperty().isEmpty()));
             }
         });
+        login.setDefaultButton(true);
     }
 
     @FXML

@@ -4,15 +4,25 @@ import data.Car;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class InputDialogue implements Initializable {
 
+    @FXML
+    public Button imgSelect;
+    @FXML
+    public ImageView image;
     @FXML
     private TextField registration;
 
@@ -68,6 +78,11 @@ public class InputDialogue implements Initializable {
         };
 
 
+        try {
+            image.setImage(new Image(Files.newInputStream(Path.of("src\\resources\\img\\defaultImg.png"))));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         yearMade.setText("1990");
         price.setText("0");
         imgLoc = "src//resources//img//defaultImg.png";
@@ -98,6 +113,7 @@ public class InputDialogue implements Initializable {
 
         if (selected != null){
             imgLoc = selected.toPath().toAbsolutePath().toString();
+            image.setImage(new Image(selected.toURI().toString()));
         }
     }
 
@@ -114,5 +130,11 @@ public class InputDialogue implements Initializable {
         primaryColor.setText(car.getColor(0));
         secondaryColor.setText(car.getColor(1));
         optionalColor.setText(car.getColor(2));
+        try {
+            image.setImage(new Image(Files.newInputStream(Path.of(car.getImageLoc()))));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        imgLoc = car.getImageLoc();
     }
 }

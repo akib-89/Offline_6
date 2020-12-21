@@ -158,6 +158,7 @@ public class Loader {
         }catch (IOException e){
             e.printStackTrace();
         }
+        System.out.println(result);
         terminate();
         this.read();
         return result;
@@ -199,5 +200,23 @@ public class Loader {
             }
         }
         return writableImage;
+    }
+
+    public boolean addStock(Car car, int amount) {
+        connect();
+        boolean result = false;
+        try(ObjectInputStream reader = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream())){
+            writer.writeObject("-addStock");
+            writer.writeObject(car);
+            writer.writeInt(amount);
+            writer.flush();
+            result = reader.readBoolean();
+            socket.close();
+            this.read();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 }

@@ -17,32 +17,22 @@
       <AnchorPane prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <TitledPane fx:id="search" expanded="false" layoutY="107.0" prefHeight="93.0" prefWidth="150.0" text="Search">
             <GridPane vgap="10">
-               <Button fx:id="btn1" mnemonicParsing="false" onAction="#handleRegPressed" text="by reg. number" />
-               <Button fx:id="btn2" mnemonicParsing="false" onAction="#handleManPressed" text="by manufacturer" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" onAction="#handleRegPressed" text="by reg. number" />
+               <Button mnemonicParsing="false" onAction="#handleManPressed" text="by manufacturer" GridPane.rowIndex="1" />
                <TextField fx:id="textField1" prefHeight="25.0" prefWidth="124.0" visible="false" GridPane.rowIndex="2" />
                <TextField fx:id="textField2" prefHeight="25.0" prefWidth="124.0" visible="false" GridPane.rowIndex="3" />
                <Button fx:id="enter" mnemonicParsing="false" onAction="#handleEnterPressed" text="Enter" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-               <Button mnemonicParsing="false" text="Revert" GridPane.halignment="RIGHT" GridPane.rowIndex="5" onAction="#handleRevertPressed"/>
-               <columnConstraints>
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
+               <Button mnemonicParsing="false" onAction="#handleRevertPressed" text="Revert" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
             </GridPane>
          </TitledPane>
+         <Button layoutX="49.0" layoutY="28.0" mnemonicParsing="false" text="Refresh" onAction="#refreshPressed"/>
       </AnchorPane>
    </left>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <ListView fx:id="carList" prefHeight="400.0" prefWidth="215.0" />
          <TextArea fx:id="carDetails" editable="false" layoutX="215.0" layoutY="200.0" prefHeight="200.0" prefWidth="255.0" />
-         <ImageView fx:id="carImg" fitHeight="200.0" fitWidth="253.0" layoutX="215.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="carImg" fitHeight="200.0" fitWidth="253.0" layoutX="215.0" pickOnBounds="true" />
       </AnchorPane>
    </center>
 </BorderPane>

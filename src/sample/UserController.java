@@ -190,4 +190,8 @@ public class UserController implements Initializable {
     }
 
 
+    public void refreshPressed(ActionEvent event) {
+        Loader.getInstance().read();
+        carList.setItems(Loader.getInstance().getCarList().getCars());
+    }
 }

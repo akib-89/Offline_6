@@ -23,29 +23,17 @@
                <TextField fx:id="textField2" prefHeight="25.0" prefWidth="124.0" visible="false" GridPane.rowIndex="3" />
                <Button fx:id="enter" mnemonicParsing="false" onAction="#enterRevertPressed" text="Enter" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                <Button fx:id="revert" mnemonicParsing="false" onAction="#enterRevertPressed" text="Revert" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-               <columnConstraints>
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
             </GridPane>
          </TitledPane>
-         <Button layoutX="47.0" layoutY="52.0" mnemonicParsing="false" text="Add car" fx:id="add"/>
+         <Button fx:id="add" layoutX="47.0" layoutY="52.0" mnemonicParsing="false" text="Add car" />
+         <Button layoutX="48.0" layoutY="14.0" mnemonicParsing="false" text="Refresh" onAction="#refreshPressed"/>
       </AnchorPane>
    </left>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <ListView fx:id="carList" prefHeight="400.0" prefWidth="215.0"/>
-         <TextArea fx:id="carDetails" editable="false" layoutX="215.0" layoutY="200.0" prefHeight="200.0"
-                   prefWidth="255.0"/>
-         <ImageView fx:id="carImg" fitHeight="200.0" fitWidth="253.0" layoutX="215.0" pickOnBounds="true"
-                    preserveRatio="true"/>
+         <ListView fx:id="carList" prefHeight="400.0" prefWidth="215.0" />
+         <TextArea fx:id="carDetails" editable="false" layoutX="215.0" layoutY="200.0" prefHeight="200.0" prefWidth="255.0" />
+         <ImageView fx:id="carImg" fitHeight="200.0" fitWidth="253.0" layoutX="215.0" pickOnBounds="true" preserveRatio="true" />
       </AnchorPane>
    </center>
 </BorderPane>

@@ -4,46 +4,41 @@
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.InputDialogue">
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="533.0" stylesheets="@dialogue.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.InputDialogue">
     <content>
-        <GridPane hgap="10" vgap="10">
-            <TextField fx:id="registration" GridPane.columnIndex="1" />
-            <TextField fx:id="yearMade" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="model" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="price" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="primaryColor" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="secondaryColor" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="optionalColor" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label text="Registration Number" />
-            <Label text="Manufacturing Year" GridPane.rowIndex="1" />
-            <Label text="Manufacturer" GridPane.rowIndex="2" />
-            <Label text="Model" GridPane.rowIndex="3" />
-            <Label text="Price" GridPane.rowIndex="4" />
-            <Label text="Image" GridPane.rowIndex="8" />
-            <Label text="Primary Colour" GridPane.rowIndex="5" />
-            <Label text="Secondary Colour" GridPane.rowIndex="6" />
-            <Label text="Optional Colour" GridPane.rowIndex="7" />
-            <Button fx:id="imgSelect" mnemonicParsing="false" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="8" onAction="#handleImg"/>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-        </GridPane>
+        <AnchorPane>
+            <GridPane hgap="10" layoutX="238.0" layoutY="23.0" vgap="10">
+                <TextField fx:id="registration" GridPane.columnIndex="1" />
+                <TextField fx:id="yearMade" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="model" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="price" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <TextField fx:id="primaryColor" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <TextField fx:id="secondaryColor" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <TextField fx:id="optionalColor" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label text="Registration Number" />
+                <Label text="Manufacturing Year" GridPane.rowIndex="1" />
+                <Label text="Manufacturer" GridPane.rowIndex="2" />
+                <Label text="Model" GridPane.rowIndex="3" />
+                <Label text="Price" GridPane.rowIndex="4" />
+                <Label text="Primary Colour" GridPane.rowIndex="5" />
+                <Label text="Secondary Colour" GridPane.rowIndex="6" />
+                <Label text="Optional Colour" GridPane.rowIndex="7" />
+            </GridPane>
+            <AnchorPane id="card" layoutX="11.0" layoutY="23.0" prefHeight="183.0" prefWidth="221.0">
+                <Button fx:id="imgSelect" layoutX="65.0" layoutY="156.0" mnemonicParsing="false" onAction="#handleImg" prefHeight="24.0" prefWidth="91.0" text="Select" />
+                <ImageView fx:id="image" fitHeight="142.0" fitWidth="196.0" layoutX="13.0" layoutY="14.0" pickOnBounds="true" />
+            </AnchorPane>
+         <effect>
+            <Glow level="0.51" />
+         </effect>
+        </AnchorPane>
     </content>
 </DialogPane>

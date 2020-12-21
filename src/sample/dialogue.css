@@ -1,0 +1,48 @@
+.dialog-pane {
+    -fx-background-image: url("dialogue.jpg");
+    -fx-background-size: stretch;
+}
+.label{
+    -fx-font-size: 13;
+    -fx-text-fill: white;
+}
+.text-field{
+    -fx-background-color: transparent;
+    -fx-background-radius: 15px;
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+    -fx-border-radius: 15px;
+    -fx-text-fill: white;
+}
+#card{
+    -fx-background-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+}
+.button{
+    -fx-border-radius: 15px;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-background-radius: 15px;
+    -fx-font-size: 15px;
+}
+.button:hover{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+#imgSelect{
+    -fx-border-radius: 15px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-background-radius: 15px;
+    -fx-font-size: 13px;
+}
+#imgSelect:hover{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}

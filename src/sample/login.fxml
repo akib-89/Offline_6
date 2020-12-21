@@ -4,19 +4,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="378.0" prefWidth="534.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Login">
-    <Label id="loginLabel" layoutX="377.0" layoutY="203.0" text="Login" />
-    <TextField fx:id="username" layoutX="296.0" layoutY="242.0" prefHeight="25.0" prefWidth="216.0" promptText="User name" />
-    <PasswordField fx:id="password" layoutX="296.0" layoutY="292.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
+    <AnchorPane id="card" layoutX="287.0" layoutY="51.0" prefHeight="285.0" prefWidth="225.0">
+        <Label id="loginLabel" layoutX="83.0" layoutY="60.0" text="Login" />
+        <TextField fx:id="username" layoutX="10.0" layoutY="188.0" prefHeight="25.0" prefWidth="200.0" promptText="User name" />
+        <PasswordField fx:id="password" layoutX="10.0" layoutY="229.0" prefHeight="33.0" prefWidth="200.0" promptText="Password" />
+        <Label fx:id="error" layoutX="25.0" layoutY="118.0" prefHeight="17.0" prefWidth="200.0" textAlignment="CENTER" textFill="WHITE" />
+        <ImageView fitHeight="41.0" fitWidth="39.0" layoutX="91.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@../resources/img/user.png" />
+           </image>
+        </ImageView>
+      <effect>
+         <DropShadow height="68.44" radius="42.614999999999995" spread="0.42" width="104.02" />
+      </effect>
+    </AnchorPane>
     <Button fx:id="login" layoutX="41.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="41.0" prefWidth="84.0" text="Log in" />
-   <Label fx:id="error" layoutX="74.0" layoutY="85.0" prefHeight="17.0" prefWidth="216.0" />
-   <ImageView fitHeight="41.0" fitWidth="39.0" layoutX="385.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../resources/img/user.png" />
-      </image>
-   </ImageView>
 </AnchorPane>
